@@ -62,7 +62,7 @@ class LoopHintSearchView @JvmOverloads constructor(
 
             hints.forEachIndexed { index, item ->
 
-                /* 进入 nonCancellable 前主动检查协程状态. */
+                /* 进入 NonCancellable 前主动检查协程状态. */
                 ensureActive()
 
                 /* 新的数据不打断已经展示的数据的动画和展示过程 */
