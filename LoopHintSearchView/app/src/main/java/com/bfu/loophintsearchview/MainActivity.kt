@@ -22,10 +22,10 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             while (isActive) {
                 delay(2_000)
-                val data1 = listOf(1, 2, 3, 4, 5, 6, 7).map { it.toString() }
+                val data1 = listOf(1, 2, 3, 4, 5, 6, 7).map { it.toString().repeat(5) }
                 binding.searchView.updateHint(data1)
                 delay(6_000)
-                val data2 = listOf("A", "B", "C", "D", "E", "F", "G")
+                val data2 = listOf("A", "B", "C", "D", "E", "F", "G").map { it.repeat(5) }
                 binding.searchView.updateHint(data2)
                 delay(10_000)
             }
