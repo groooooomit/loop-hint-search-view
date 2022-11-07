@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "LoopHintSearchView"
-include ':app'
+include(":app")
