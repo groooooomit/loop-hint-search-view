@@ -109,30 +109,31 @@ class LoopHintSearchView @JvmOverloads constructor(
         Toast.makeText(context, "item: $item, index: $index", Toast.LENGTH_SHORT).show()
     }
 
-    /**
-     * View 滑动出去
-     */
-    private suspend fun View.slideOut() {
-        translationY = 0f
-        val animator = animate()
-            .translationY(-(40.dp))
-            .setDuration(1000)
-        animator.start()
-        animator.awaitEnd()
-    }
-
-    /**
-     * View 滑动进入
-     */
-    private suspend fun View.slideIn() {
-        translationY = 40.dp
-        val animator = animate()
-            .translationY(0f)
-            .setDuration(1000)
-        animator.start()
-        animator.awaitEnd()
-    }
-
-
 }
+
+
+/**
+ * View 滑动出去
+ */
+private suspend fun View.slideOut() {
+    translationY = 0f
+    val animator = animate()
+        .translationY(-(40.dp))
+        .setDuration(1000)
+    animator.start()
+    animator.awaitEnd()
+}
+
+/**
+ * View 滑动进入
+ */
+private suspend fun View.slideIn() {
+    translationY = 40.dp
+    val animator = animate()
+        .translationY(0f)
+        .setDuration(1000)
+    animator.start()
+    animator.awaitEnd()
+}
+
 
