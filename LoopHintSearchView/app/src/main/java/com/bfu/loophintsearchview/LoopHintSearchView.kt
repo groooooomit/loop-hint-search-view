@@ -114,7 +114,7 @@ class LoopHintSearchView @JvmOverloads constructor(
      */
     private suspend fun View.slideOut() {
         translationY = 0f
-        val animator = binding.preHintText.animate()
+        val animator = animate()
             .translationY(-(40.dp))
             .setDuration(1000)
         animator.start()
@@ -126,7 +126,7 @@ class LoopHintSearchView @JvmOverloads constructor(
      */
     private suspend fun View.slideIn() {
         translationY = 40.dp
-        val animator = binding.nextHintText.animate()
+        val animator = animate()
             .translationY(0f)
             .setDuration(1000)
         animator.start()
