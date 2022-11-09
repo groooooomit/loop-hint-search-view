@@ -68,10 +68,11 @@ class LoopHintSearchView @JvmOverloads constructor(
                 /* 切换到指定 item */
                 showItemAnimatedly(index, item)
 
-                /* item 数量不足 2 个，那么不滚动播放 */
-                if (hints.size <= 1) {
-                    awaitCancellation()
-                }
+            }
+
+            /* item 数量不足 2 个，那么不滚动播放 */
+            if (hints.size <= 1) {
+                awaitCancellation()
             }
         }
     }
