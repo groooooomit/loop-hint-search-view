@@ -72,6 +72,7 @@ class LoopHintSearchView @JvmOverloads constructor(
 
             /* item 数量不足 2 个，那么不滚动播放 */
             if (hints.size <= 1) {
+                /* 等着当前协程被取消，要么因为来新数据取消当前协程，要么因为页面结束取消当前协程 */
                 awaitCancellation()
             }
         }
