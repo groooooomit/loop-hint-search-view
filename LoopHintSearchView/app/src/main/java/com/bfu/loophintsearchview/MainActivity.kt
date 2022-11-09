@@ -23,6 +23,7 @@ class MainActivity : AppCompatActivity() {
             while (isActive) {
                 delay(2_000)
                 val data0 = listOf("我是一个孤独的默认文案")
+                binding.searchView.updateHint(data0)
                 delay(5_000)
                 val data1 = listOf(1, 2, 3, 4, 5, 6, 7).map { it.toString().repeat(5) }
                 binding.searchView.updateHint(data1)
