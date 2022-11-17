@@ -77,7 +77,6 @@ class RxLoopHintSearchView @JvmOverloads constructor(
 
     private fun showItemAnimatedly(index: Int, item: String): Completable = Completable.defer {
         Completable.complete()
-            .observeOn(AndroidSchedulers.mainThread())
             .doOnComplete {
                 /* nextHintText 在动画执行开始前更新 text. */
                 binding.nextHintText.text = item
