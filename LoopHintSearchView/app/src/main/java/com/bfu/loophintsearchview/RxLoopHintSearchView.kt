@@ -1,6 +1,7 @@
 package com.bfu.loophintsearchview
 
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -66,44 +67,42 @@ class RxLoopHintSearchView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    private fun loopShowHints(hints: List<String>): Completable = Flowable.just(hints)
-        .map {
-            it.withIndex()
-        }
-        .flatMap {
-            Flowable.fromIterable(it)
-        }
-        .flatMapCompletable { (index, item) ->
+    @SuppressLint("CheckResult")
+    private fun loopShowHints(hints: List<String>): Completable =
+        hints.withIndex().map { (index, item) ->
             showItemAnimatedly(index, item)
-        }
-        .repeat()
+        }.let {
+            Completable.concat(it)
+        }.repeat(if (hints.size <= 1) 1 else Long.MAX_VALUE)
 
-    private fun showItemAnimatedly(index: Int, item: String): Completable = Completable.complete()
-        .observeOn(AndroidSchedulers.mainThread())
-        .doOnComplete {
-            /* nextHintText 在动画执行开始前更新 text. */
-            binding.nextHintText.text = item
-        }
-        .andThen(
-            Completable.merge(
-                listOf(
-                    binding.nextHintText.slideIn(),
-                    binding.preHintText.slideOut()
+    private fun showItemAnimatedly(index: Int, item: String): Completable = Completable.defer {
+        Completable.complete()
+            .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                /* nextHintText 在动画执行开始前更新 text. */
+                binding.nextHintText.text = item
+            }
+            .andThen(
+                Completable.merge(
+                    listOf(
+                        binding.nextHintText.slideIn(),
+                        binding.preHintText.slideOut()
+                    )
                 )
             )
-        )
-        .doOnComplete {
-            /* preHintText 在动画执行结束后更新 text. */
-            binding.preHintText.text = item
-        }
-        .doOnComplete {
-            /* 更新点击事件. */
-            binding.searchLayout.setOnClickListener {
-                onClick(item, index)
+            .doOnComplete {
+                /* preHintText 在动画执行结束后更新 text. */
+                binding.preHintText.text = item
             }
-        }
-        .delay(1000, TimeUnit.MILLISECONDS)
-        .observeOn(AndroidSchedulers.mainThread())
+            .doOnComplete {
+                /* 更新点击事件. */
+                binding.searchLayout.setOnClickListener {
+                    onClick(item, index)
+                }
+            }
+            .delay(1000, TimeUnit.MILLISECONDS)
+            .observeOn(AndroidSchedulers.mainThread())
+    }
 
     private fun onClick(item: String, index: Int) {
         Toast.makeText(context, "item: $item, index: $index", Toast.LENGTH_SHORT).show()
