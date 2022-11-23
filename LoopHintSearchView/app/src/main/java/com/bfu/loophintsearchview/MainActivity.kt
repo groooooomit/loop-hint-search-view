@@ -29,10 +29,10 @@ class MainActivity : AppCompatActivity() {
 
                 delay(5_000)
 
-                val data1 = (0..9).map { it.toString().repeat(5) }
+                val data1 = (0..2).map { it.toString().repeat(5) }
                 showData(data1)
 
-                delay(6_000)
+                delay(10_000)
 
                 val data2 = ('A'..'Z').map { it.toString().repeat(5) }
                 showData(data2)
