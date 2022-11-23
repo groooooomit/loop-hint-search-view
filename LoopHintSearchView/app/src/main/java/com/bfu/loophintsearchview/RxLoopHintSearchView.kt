@@ -94,7 +94,7 @@ class RxLoopHintSearchView @JvmOverloads constructor(
                 onClick(item, index)
             }
         }
-        .delay(1000, TimeUnit.MILLISECONDS)
+        .delay(App.ITEM_SHOWING_DURATION, TimeUnit.MILLISECONDS)
         .observeOn(AndroidSchedulers.mainThread())
 
 
@@ -112,7 +112,7 @@ private fun View.slideOut(): Completable {
     translationY = 0f
     val animator = animate()
         .translationY(-(40.dp))
-        .setDuration(1000)
+        .setDuration(App.ANIM_DURATION)
     animator.start()
     return animator.asCompletable()
 }
@@ -124,7 +124,7 @@ private fun View.slideIn(): Completable {
     translationY = 40.dp
     val animator = animate()
         .translationY(0f)
-        .setDuration(1000)
+        .setDuration(App.ANIM_DURATION)
     animator.start()
     return animator.asCompletable()
 }

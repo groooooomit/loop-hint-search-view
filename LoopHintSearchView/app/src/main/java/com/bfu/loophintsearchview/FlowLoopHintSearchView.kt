@@ -111,7 +111,7 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
             }
 
             /* 让新进入的数据静静展示一段时间. */
-            delay(1000)
+            delay(App.ITEM_SHOWING_DURATION)
 
         }?.join()
     }
@@ -130,7 +130,7 @@ private suspend fun View.slideOut() {
     translationY = 0f
     val animator = animate()
         .translationY(-(40.dp))
-        .setDuration(1000)
+        .setDuration(App.ANIM_DURATION)
     animator.start()
     animator.awaitEnd()
 }
@@ -142,7 +142,7 @@ private suspend fun View.slideIn() {
     translationY = 40.dp
     val animator = animate()
         .translationY(0f)
-        .setDuration(1000)
+        .setDuration(App.ANIM_DURATION)
     animator.start()
     animator.awaitEnd()
 }
