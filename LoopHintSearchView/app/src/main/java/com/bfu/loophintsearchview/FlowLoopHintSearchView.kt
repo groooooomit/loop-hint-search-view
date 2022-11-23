@@ -68,8 +68,6 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
         }
     }
 
-
-    /* 新的数据不打断已经展示的数据的动画和展示过程，所以套上 NonCancellable */
     private suspend fun showItemAnimatedly(index: Int, item: String) = coroutineScope {
 
         /* nextHintText 在动画执行开始前更新 text. */
