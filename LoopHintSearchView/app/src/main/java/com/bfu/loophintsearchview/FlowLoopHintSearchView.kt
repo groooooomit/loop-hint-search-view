@@ -70,39 +70,34 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
 
 
     /* 新的数据不打断已经展示的数据的动画和展示过程，所以套上 NonCancellable */
-    private suspend fun showItemAnimatedly(index: Int, item: String) = withContext(NonCancellable) {
+    private suspend fun showItemAnimatedly(index: Int, item: String) = coroutineScope {
 
-        /* NonCancellable 会连同生命周期结束事件一起屏蔽，此处需要用 lifecycle 顶级 scope 新启一个协程 */
-        _viewScope?.launch {
+        /* nextHintText 在动画执行开始前更新 text. */
+        binding.nextHintText.text = item
 
-            /* nextHintText 在动画执行开始前更新 text. */
-            binding.nextHintText.text = item
+        /* 新的 hint 从视图区域下方移进来. */
+        val nextAnim = launch {
+            binding.nextHintText.slideIn()
+        }
 
-            /* 新的 hint 从视图区域下方移进来. */
-            val nextAnim = launch {
-                binding.nextHintText.slideIn()
-            }
+        /* 当前的 hint 从视图区域向上移出去. */
+        val preAnim = launch {
+            binding.preHintText.slideOut()
+        }
 
-            /* 当前的 hint 从视图区域向上移出去. */
-            val preAnim = launch {
-                binding.preHintText.slideOut()
-            }
+        /* 等待俩动画全部结束. */
+        joinAll(preAnim, nextAnim)
 
-            /* 等待俩动画全部结束. */
-            joinAll(preAnim, nextAnim)
+        /* preHintText 在动画执行结束后更新 text. */
+        binding.preHintText.text = item
 
-            /* preHintText 在动画执行结束后更新 text. */
-            binding.preHintText.text = item
+        /* 更新点击事件. */
+        binding.searchLayout.setOnClickListener {
+            onClick(item, index)
+        }
 
-            /* 更新点击事件. */
-            binding.searchLayout.setOnClickListener {
-                onClick(item, index)
-            }
-
-            /* 让新进入的数据静静展示一段时间. */
-            delay(App.ITEM_SHOWING_DURATION)
-
-        }?.join()
+        /* 让新进入的数据静静展示一段时间. */
+        delay(App.ITEM_SHOWING_DURATION)
     }
 
     private fun onClick(item: String, index: Int) {
