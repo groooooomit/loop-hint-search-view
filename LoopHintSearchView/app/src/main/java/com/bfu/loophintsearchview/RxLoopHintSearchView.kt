@@ -27,8 +27,7 @@ class RxLoopHintSearchView @JvmOverloads constructor(
 
     private val hintListFlow = MutableLiveData(listOf<String>())
 
-    /** View 生命周期 scope. */
-
+    /** View 生命周期 lifecycleOwner. */
     private var _viewLifecycleOwner: LifecycleOwner? by Delegates.observable(null) { _, oldValue, newValue ->
         (oldValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.DESTROYED
         (newValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.RESUMED
@@ -38,9 +37,7 @@ class RxLoopHintSearchView @JvmOverloads constructor(
                 .filter(Collection<String>::isNotEmpty) /* 过滤掉空数据. */
                 .collectLatest(this, ::loopShowHints) /* 订阅. */
         }
-
     }
-
 
     fun updateHint(hintItems: List<String>) {
         hintListFlow.value = hintItems
