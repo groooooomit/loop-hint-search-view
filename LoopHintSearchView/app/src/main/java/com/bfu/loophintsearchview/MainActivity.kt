@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 val data0 = listOf("我是一个默认文案")
                 showData(data0)
 
-                delay(3_000)
+                delay(4_000)
 
                 val data1 = (0..2).map { it.toString().repeat(5) }
                 showData(data1)
