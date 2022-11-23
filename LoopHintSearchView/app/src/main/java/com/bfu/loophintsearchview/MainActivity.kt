@@ -1,7 +1,7 @@
 package com.bfu.loophintsearchview
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.bfu.loophintsearchview.databinding.ActivityMainBinding
 import kotlinx.coroutines.delay
@@ -21,15 +21,25 @@ class MainActivity : AppCompatActivity() {
     private fun mockData() {
         lifecycleScope.launch {
             while (isActive) {
+
                 delay(2_000)
-                val data0 = listOf("我是一个孤独的默认文案")
-                binding.searchView.updateHint(data0)
+
+                val data0 = listOf("我是一个默认文案")
+                binding.rxSearchView.updateHint(data0)
+                binding.flowSearchView.updateHint(data0)
+
                 delay(5_000)
+
                 val data1 = listOf(1, 2, 3, 4, 5, 6, 7).map { it.toString().repeat(5) }
-                binding.searchView.updateHint(data1)
+                binding.rxSearchView.updateHint(data1)
+                binding.flowSearchView.updateHint(data1)
+
                 delay(6_000)
+
                 val data2 = listOf("A", "B", "C", "D", "E", "F", "G").map { it.repeat(5) }
-                binding.searchView.updateHint(data2)
+                binding.rxSearchView.updateHint(data2)
+                binding.flowSearchView.updateHint(data2)
+
                 delay(10_000)
             }
         }

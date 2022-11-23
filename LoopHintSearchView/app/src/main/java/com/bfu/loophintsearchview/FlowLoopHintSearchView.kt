@@ -17,7 +17,7 @@ import kotlin.properties.Delegates
 /**
  * 首页搜索框
  */
-class LoopHintSearchView @JvmOverloads constructor(
+class FlowLoopHintSearchView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
