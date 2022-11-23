@@ -57,10 +57,10 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
+
     private suspend fun loopShowHints(hints: List<String>) = coroutineScope {
 
-        /* 无限滚动处理数据，直到协程被取消. */
-        while (isActive) {
+        repeat(if (hints.size <= 1) 1 else Int.MAX_VALUE) {
 
             hints.forEachIndexed { index, item ->
 
@@ -70,12 +70,6 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
                 /* 切换到指定 item */
                 showItemAnimatedly(index, item)
 
-            }
-
-            /* item 数量不足 2 个，那么不滚动播放 */
-            if (hints.size <= 1) {
-                /* 等着当前协程被取消，要么因为来新数据取消当前协程，要么因为页面结束取消当前协程 */
-                awaitCancellation()
             }
         }
     }
