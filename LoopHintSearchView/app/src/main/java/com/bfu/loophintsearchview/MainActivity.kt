@@ -22,17 +22,17 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             while (isActive) {
 
-                delay(2_000)
+                delay(1_000)
 
                 val data0 = listOf("我是一个默认文案")
                 showData(data0)
 
-                delay(5_000)
+                delay(3_000)
 
                 val data1 = (0..2).map { it.toString().repeat(5) }
                 showData(data1)
 
-                delay(10_000)
+                delay(8_000)
 
                 val data2 = ('A'..'Z').map { it.toString().repeat(5) }
                 showData(data2)
