@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             while (isActive) {
 
-                delay(2_000)
+                delay(1_000)
 
                 val data0 = listOf("我是一个默认文案")
                 showData(data0)
