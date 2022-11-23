@@ -25,7 +25,7 @@ class RxLoopHintSearchView @JvmOverloads constructor(
 
     private val binding = LayoutSearchViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    private val hintListFlow = MutableLiveData(listOf<String>())
+    private val hintListFlow = MutableLiveData(listOf<String>()) /* 可以使用 PublishSubject 代替 */
 
     /** View 生命周期 lifecycleOwner. */
     private var _viewLifecycleOwner: LifecycleOwner? by Delegates.observable(null) { _, oldValue, newValue ->
