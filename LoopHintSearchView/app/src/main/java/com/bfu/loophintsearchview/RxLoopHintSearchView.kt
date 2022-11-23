@@ -3,7 +3,6 @@ package com.bfu.loophintsearchview
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
@@ -13,8 +12,6 @@ import androidx.lifecycle.Observer
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.rxkotlin.flatMapSequence
-import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -26,15 +23,9 @@ class RxLoopHintSearchView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
-    companion object {
-        private const val TAG = "RxLoopHintSearchView"
-    }
-
     private val binding = LayoutSearchViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-//    private val hintListFlow = MutableLiveData(listOf<String>())
-
-    private val hintListSubject = PublishSubject.create<List<String>>()
+    private val hintListFlow = MutableLiveData(listOf<String>())
 
     /** View 生命周期 scope. */
 
@@ -42,23 +33,17 @@ class RxLoopHintSearchView @JvmOverloads constructor(
         (oldValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.DESTROYED
         (newValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.RESUMED
 
-
         newValue?.apply {
-            hintListSubject.toFlowable(BackpressureStrategy.LATEST)
+            hintListFlow.toFlowable(this)
                 .filter(Collection<String>::isNotEmpty) /* 过滤掉空数据. */
-                .switchMap {
-                    loopShowHints(it)
-                }
-                .toLiveData()
-                .observe(this, Observer {})
+                .collectLatest(this, ::loopShowHints) /* 订阅. */
         }
 
     }
 
 
     fun updateHint(hintItems: List<String>) {
-//        hintListFlow.value = hintItems
-        hintListSubject.onNext(hintItems)
+        hintListFlow.value = hintItems
     }
 
     init {
@@ -80,50 +65,39 @@ class RxLoopHintSearchView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-//    private fun loopShowHints(hints: List<String>): Completable =
-//        hints.withIndex().map { (index, item) ->
-//            showItemAnimatedly(index, item)
-//        }.let {
-//            Completable.concat(it)
-//        }.repeat(if (hints.size <= 1) 1 else Long.MAX_VALUE)
-
-
-    private fun loopShowHints(hints: List<String>) = Flowable.fromIterable(hints.withIndex())
-        .concatMapSingle { (index, item) -> showItemAnimatedly(index, item).toSingle { 1 } }
-        .doOnCancel {
-            Log.i(TAG, "loopShowHints doOnCancel 1")
-        }
-        .onBackpressureLatest()
+    private fun loopShowHints(hints: List<String>): Completable = Observable
+        .fromIterable(hints.withIndex())
+        .concatMapCompletable { (index, item) -> showItemAnimatedly(index, item) }
         .repeat(if (hints.size <= 1) 1 else Long.MAX_VALUE)
 
 
-    private fun showItemAnimatedly(index: Int, item: String): Completable = Completable.defer {
-        Completable.complete()
-            .doOnComplete {
-                /* nextHintText 在动画执行开始前更新 text. */
-                binding.nextHintText.text = item
-            }
-            .andThen(
-                Completable.merge(
-                    listOf(
-                        binding.nextHintText.slideIn(),
-                        binding.preHintText.slideOut()
-                    )
+    private fun showItemAnimatedly(index: Int, item: String): Completable = Completable.complete()
+        .doOnComplete {
+            /* nextHintText 在动画执行开始前更新 text. */
+            binding.nextHintText.text = item
+        }
+        .andThen(
+            /* 同时执行动画. */
+            Completable.merge(
+                listOf(
+                    binding.nextHintText.slideIn(),
+                    binding.preHintText.slideOut()
                 )
             )
-            .doOnComplete {
-                /* preHintText 在动画执行结束后更新 text. */
-                binding.preHintText.text = item
+        )
+        .doOnComplete {
+            /* preHintText 在动画执行结束后更新 text. */
+            binding.preHintText.text = item
+        }
+        .doOnComplete {
+            /* 更新点击事件. */
+            binding.searchLayout.setOnClickListener {
+                onClick(item, index)
             }
-            .doOnComplete {
-                /* 更新点击事件. */
-                binding.searchLayout.setOnClickListener {
-                    onClick(item, index)
-                }
-            }
-            .delay(1000, TimeUnit.MILLISECONDS)
-            .observeOn(AndroidSchedulers.mainThread())
-    }
+        }
+        .delay(1000, TimeUnit.MILLISECONDS)
+        .observeOn(AndroidSchedulers.mainThread())
+
 
     private fun onClick(item: String, index: Int) {
         Toast.makeText(context, "item: $item, index: $index", Toast.LENGTH_SHORT).show()
@@ -165,7 +139,7 @@ private fun <T> Flowable<T>.collectLatest(
     action: (T) -> CompletableSource
 ) {
     onBackpressureLatest()
-        .flatMapCompletable(action)
+        .switchMapCompletable(action)
         .toFlowable<Unit>()
         .toLiveData().observe(lifecycleOwner, Observer {})
 }
