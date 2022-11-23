@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
 
                 delay(5_000)
 
-                val data1 = (0..100).map { it.toString().repeat(5) }
+                val data1 = (0..9).map { it.toString().repeat(5) }
                 showData(data1)
 
                 delay(6_000)

@@ -1,19 +1,20 @@
 package com.bfu.loophintsearchview
 
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.*
+import androidx.lifecycle.Observer
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
-import io.reactivex.Completable
-import io.reactivex.CompletableSource
-import io.reactivex.Flowable
+import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.flatMapSequence
+import io.reactivex.subjects.PublishSubject
 import kotlinx.coroutines.*
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -25,9 +26,15 @@ class RxLoopHintSearchView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
 
+    companion object {
+        private const val TAG = "RxLoopHintSearchView"
+    }
+
     private val binding = LayoutSearchViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    private val hintListFlow = MutableLiveData(listOf<String>())
+//    private val hintListFlow = MutableLiveData(listOf<String>())
+
+    private val hintListSubject = PublishSubject.create<List<String>>()
 
     /** View 生命周期 scope. */
 
@@ -35,17 +42,23 @@ class RxLoopHintSearchView @JvmOverloads constructor(
         (oldValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.DESTROYED
         (newValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.RESUMED
 
+
         newValue?.apply {
-            hintListFlow.toFlowable(this)
+            hintListSubject.toFlowable(BackpressureStrategy.LATEST)
                 .filter(Collection<String>::isNotEmpty) /* 过滤掉空数据. */
-                .collectLatest(this, ::loopShowHints) /* 订阅. */
+                .switchMap {
+                    loopShowHints(it)
+                }
+                .toLiveData()
+                .observe(this, Observer {})
         }
 
     }
 
 
     fun updateHint(hintItems: List<String>) {
-        hintListFlow.value = hintItems
+//        hintListFlow.value = hintItems
+        hintListSubject.onNext(hintItems)
     }
 
     init {
@@ -67,13 +80,22 @@ class RxLoopHintSearchView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-    @SuppressLint("CheckResult")
-    private fun loopShowHints(hints: List<String>): Completable =
-        hints.withIndex().map { (index, item) ->
-            showItemAnimatedly(index, item)
-        }.let {
-            Completable.concat(it)
-        }.repeat(if (hints.size <= 1) 1 else Long.MAX_VALUE)
+//    private fun loopShowHints(hints: List<String>): Completable =
+//        hints.withIndex().map { (index, item) ->
+//            showItemAnimatedly(index, item)
+//        }.let {
+//            Completable.concat(it)
+//        }.repeat(if (hints.size <= 1) 1 else Long.MAX_VALUE)
+
+
+    private fun loopShowHints(hints: List<String>) = Flowable.fromIterable(hints.withIndex())
+        .concatMapSingle { (index, item) -> showItemAnimatedly(index, item).toSingle { 1 } }
+        .doOnCancel {
+            Log.i(TAG, "loopShowHints doOnCancel 1")
+        }
+        .onBackpressureLatest()
+        .repeat(if (hints.size <= 1) 1 else Long.MAX_VALUE)
+
 
     private fun showItemAnimatedly(index: Int, item: String): Completable = Completable.defer {
         Completable.complete()
@@ -144,8 +166,7 @@ private fun <T> Flowable<T>.collectLatest(
 ) {
     onBackpressureLatest()
         .flatMapCompletable(action)
-        .toFlowable<Int>()
-        .onBackpressureLatest()
+        .toFlowable<Unit>()
         .toLiveData().observe(lifecycleOwner, Observer {})
 }
 
