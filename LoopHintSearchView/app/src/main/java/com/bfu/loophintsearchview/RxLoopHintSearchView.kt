@@ -145,6 +145,7 @@ private fun <T> Flowable<T>.collectLatest(
     onBackpressureLatest()
         .flatMapCompletable(action)
         .toFlowable<Int>()
+        .onBackpressureLatest()
         .toLiveData().observe(lifecycleOwner, Observer {})
 }
 
