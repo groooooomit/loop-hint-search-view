@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 val data2 = ('A'..'Z').map { it.toString().repeat(5) }
                 showData(data2)
 
-                delay(10_000)
+                delay(6_000)
             }
         }
     }
