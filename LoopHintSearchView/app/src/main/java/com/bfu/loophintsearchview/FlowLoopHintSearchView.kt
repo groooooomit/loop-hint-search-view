@@ -57,22 +57,17 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
         super.onDetachedFromWindow()
     }
 
-
-    private suspend fun loopShowHints(hints: List<String>) = coroutineScope {
-
+    private suspend fun loopShowHints(hints: List<String>) {
         repeat(if (hints.size <= 1) 1 else Int.MAX_VALUE) {
-
             hints.forEachIndexed { index, item ->
-
                 /* 进入循环体主动检查协程状态. */
-                ensureActive()
-
+                currentCoroutineContext().ensureActive()
                 /* 切换到指定 item */
                 showItemAnimatedly(index, item)
-
             }
         }
     }
+
 
     /* 新的数据不打断已经展示的数据的动画和展示过程，所以套上 NonCancellable */
     private suspend fun showItemAnimatedly(index: Int, item: String) = withContext(NonCancellable) {
