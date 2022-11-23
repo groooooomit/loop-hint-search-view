@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.filter
 import kotlin.properties.Delegates
 
 /**
- * 首页搜索框
+ * 首页搜索框（Flow 版本）
  */
 class FlowLoopHintSearchView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -27,7 +27,9 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
 
     /** View 生命周期 scope. */
     private var _viewScope: CoroutineScope? by Delegates.observable(null) { _, oldValue, newValue ->
+        /* 旧的 scope 狗带. */
         oldValue?.cancel()
+        /* 开启新任务. */
         newValue?.launch {
             hintListFlow
                 .filter(Collection<String>::isNotEmpty) /* 过滤掉空数据. */

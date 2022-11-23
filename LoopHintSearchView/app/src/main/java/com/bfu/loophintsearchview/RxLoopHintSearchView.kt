@@ -29,9 +29,9 @@ class RxLoopHintSearchView @JvmOverloads constructor(
 
     /** View 生命周期 lifecycleOwner. */
     private var _viewLifecycleOwner: LifecycleOwner? by Delegates.observable(null) { _, oldValue, newValue ->
+        /* 旧的 lifecycleOwner 狗带. */
         (oldValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.DESTROYED
-        (newValue?.lifecycle as? LifecycleRegistry)?.currentState = Lifecycle.State.RESUMED
-
+        /* 开启新任务. */
         newValue?.apply {
             hintListFlow.toFlowable(this)
                 .filter(Collection<String>::isNotEmpty) /* 过滤掉空数据. */
@@ -53,7 +53,9 @@ class RxLoopHintSearchView @JvmOverloads constructor(
         super.onAttachedToWindow()
         _viewLifecycleOwner = object : LifecycleOwner {
             private val registry = LifecycleRegistry(this)
-            override fun getLifecycle(): Lifecycle = registry
+            override fun getLifecycle() = registry
+        }.apply {
+            lifecycle.currentState = Lifecycle.State.RESUMED
         }
     }
 
