@@ -2,6 +2,7 @@ package com.bfu.loophintsearchview.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.activity.OnBackPressedDispatcher
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,11 +34,16 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
         /* 点击. */
         binding.btLogin.setOnClickListener {
-            val username = binding.editUsername.text.toString()
-            val password = binding.editPassword.text.toString()
-            userViewModel.login(username, password)
+//            val username = binding.editUsername.text.toString()
+//            val password = binding.editPassword.text.toString()
+//            userViewModel.login(username, password)
+            requireActivity().finish()
         }
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.txtMsg.text = ""
     }
 
 
