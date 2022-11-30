@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import com.bfu.loophintsearchview.R
 import com.bfu.loophintsearchview.databinding.DialogPrivacyBinding
 
@@ -20,7 +22,18 @@ class PrivacyDialog : DialogFragment(R.layout.dialog_privacy) {
 
     private val id by lazy { arguments?.getString(KEY_ID) }
 
-    var onResultListener: ((Boolean) -> Unit)? = null
+    private val listenerHolder by viewModels<ListenerHolder>()
+
+    /* onResultListener 需要用 ViewModel 来存储才不会在 Activity 重建时丢失. */
+    var onResultListener: ((Boolean) -> Unit)?
+        get() = listenerHolder.resultListener
+        set(value) {
+            listenerHolder.resultListener = value
+        }
+
+    class ListenerHolder : ViewModel() {
+        var resultListener: ((Boolean) -> Unit)? = null
+    }
 
     @SuppressLint("SetTextI18n")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

@@ -21,7 +21,7 @@ class UserFragment : Fragment(R.layout.fragment_user) {
         /* loading 状态. */
         userViewModel.isLoading.observe(viewLifecycleOwner) {
             binding.btLogin.isEnabled = !it
-            binding.editUsername.isEnabled = !it
+            binding.editId.isEnabled = !it
             binding.editPassword.isEnabled = !it
             binding.loading.isVisible = it
         }
@@ -33,9 +33,9 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
         /* 点击. */
         binding.btLogin.setOnClickListener {
-            val username = binding.editUsername.text.toString()
+            val id = binding.editId.text.toString()
             val password = binding.editPassword.text.toString()
-            userViewModel.login(username, password)
+            userViewModel.login(id, password)
         }
     }
 

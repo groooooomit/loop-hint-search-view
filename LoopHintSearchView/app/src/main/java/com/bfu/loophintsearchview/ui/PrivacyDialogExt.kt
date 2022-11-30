@@ -1,10 +1,8 @@
 package com.bfu.loophintsearchview.ui
 
-import androidx.fragment.app.FragmentActivity
 import com.bfu.loophintsearchview.util.RunOnceOnAppActiveHelper
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
-import java.lang.ref.WeakReference
 import kotlin.coroutines.resume
 
 /**
@@ -22,9 +20,15 @@ suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000
             val job = RunOnceOnAppActiveHelper.runOnceOnResumed {
                 /* 弹出 Privacy 弹窗. */
                 PrivacyDialog.newInstance(id)
-                    .apply {
-                        onResultListener = cont::resume
-                    }.show(supportFragmentManager, tag)
+                    .also { dialog ->
+                        /* 等待 dialog 生命周期就绪时再设置 listener. */
+                        dialog.viewLifecycleOwnerLiveData.observe(this) {
+                            if (null != it) {
+                                dialog.onResultListener = cont::resume
+                            }
+                        }
+                    }
+                    .show(supportFragmentManager, tag)
             }
 
             /* 外部协程取消时取消内部任务. */
