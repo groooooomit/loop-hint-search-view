@@ -15,7 +15,7 @@
         app:layout_constraintBottom_toTopOf="@id/flowSearchView"
         app:layout_constraintStart_toStartOf="@id/flowSearchView" />
 
-    <com.bfu.loophintsearchview.FlowLoopHintSearchView
+    <com.bfu.loophintsearchview.widget.FlowLoopHintSearchView
         android:id="@+id/flowSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
         app:layout_constraintBottom_toTopOf="@id/rxSearchView"
         app:layout_constraintStart_toStartOf="@id/rxSearchView" />
 
-    <com.bfu.loophintsearchview.RxLoopHintSearchView
+    <com.bfu.loophintsearchview.widget.RxLoopHintSearchView
         android:id="@+id/rxSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

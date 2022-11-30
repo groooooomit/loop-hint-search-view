@@ -1,4 +1,4 @@
-package com.bfu.loophintsearchview
+package com.bfu.loophintsearchview.widget
 
 
 import android.content.Context
@@ -9,6 +9,9 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import com.bfu.loophintsearchview.asCompletable
+import com.bfu.loophintsearchview.base.App
+import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers

@@ -1,4 +1,4 @@
-package com.bfu.loophintsearchview
+package com.bfu.loophintsearchview.widget
 
 
 import android.content.Context
@@ -7,6 +7,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
+import com.bfu.loophintsearchview.awaitEnd
+import com.bfu.loophintsearchview.base.App
+import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow

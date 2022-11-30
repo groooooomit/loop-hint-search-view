@@ -1,4 +1,4 @@
-package com.bfu.loophintsearchview
+package com.bfu.loophintsearchview.base
 
 import android.content.ContextWrapper
 
