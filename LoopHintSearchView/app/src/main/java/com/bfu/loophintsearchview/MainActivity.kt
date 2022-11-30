@@ -2,11 +2,8 @@ package com.bfu.loophintsearchview
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.fragment.app.commit
 import com.bfu.loophintsearchview.databinding.ActivityMainBinding
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
-import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,38 +13,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        /* start click */
-        binding.btStart.setOnClickListener {
-            mockData()
+        /* add fragment */
+        supportFragmentManager.commit {
+            replace(R.id.container, SearchFragment::class.java, null)
         }
     }
 
-    private fun mockData() {
-        lifecycleScope.launch {
-            while (isActive) {
-
-                delay(1_000)
-
-                val data0 = listOf("我是一个默认文案")
-                showData(data0)
-
-                delay(4_000)
-
-                val data1 = (0..2).map { it.toString().repeat(5) }
-                showData(data1)
-
-                delay(8_000)
-
-                val data2 = ('A'..'Z').map { it.toString().repeat(5) }
-                showData(data2)
-
-                delay(6_000)
-            }
-        }
-    }
-
-    private fun showData(data: List<String>) {
-        binding.rxSearchView.updateHint(data)
-        binding.flowSearchView.updateHint(data)
-    }
 }
