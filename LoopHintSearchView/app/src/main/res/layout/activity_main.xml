@@ -15,6 +15,7 @@
         app:layout_constraintBottom_toTopOf="@id/flowSearchView"
         app:layout_constraintStart_toStartOf="@id/flowSearchView" />
 
+    <!-- Flow -->
     <com.bfu.loophintsearchview.widget.FlowLoopHintSearchView
         android:id="@+id/flowSearchView"
         android:layout_width="match_parent"
@@ -31,6 +32,7 @@
         app:layout_constraintBottom_toTopOf="@id/rxSearchView"
         app:layout_constraintStart_toStartOf="@id/rxSearchView" />
 
+    <!-- RxJava2 -->
     <com.bfu.loophintsearchview.widget.RxLoopHintSearchView
         android:id="@+id/rxSearchView"
         android:layout_width="match_parent"
@@ -38,5 +40,16 @@
         android:layout_marginTop="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/flowSearchView" />
+
+    <!-- start -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/rxSearchView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
