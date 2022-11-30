@@ -1,17 +1,18 @@
-package com.bfu.loophintsearchview
+package com.bfu.loophintsearchview.ui
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.bfu.loophintsearchview.databinding.FragmentUserBinding
+import com.bfu.loophintsearchview.R
+import com.bfu.loophintsearchview.databinding.FragmentSearchBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
-class UserFragment : Fragment(R.layout.fragment_user) {
+class SearchFragment : Fragment(R.layout.fragment_search) {
 
-    private val binding by lazy { FragmentUserBinding.bind(requireView()) }
+    private val binding by lazy { FragmentSearchBinding.bind(requireView()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mockData()

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.bfu.loophintsearchview.databinding.ActivityMainBinding
+import com.bfu.loophintsearchview.ui.UserFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -15,7 +16,7 @@ class MainActivity : AppCompatActivity() {
 
         /* add fragment */
         supportFragmentManager.commit {
-            replace(R.id.container, SearchFragment::class.java, null)
+            replace(R.id.container, UserFragment::class.java, null)
         }
     }
 
