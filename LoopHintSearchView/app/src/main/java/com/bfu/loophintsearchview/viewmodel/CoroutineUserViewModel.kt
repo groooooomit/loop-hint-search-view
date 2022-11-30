@@ -50,7 +50,7 @@ class CoroutineUserViewModel : UserViewModel() {
                 throw e
             } catch (e: Exception) {
                 info.value = buildSpannedString {
-                    color(Color.GREEN) { "登录异常: ${e.message}" }
+                    color(Color.RED) { "登录异常: ${e.message}" }
                 }
             } finally {
                 isLoading.value = false
