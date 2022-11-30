@@ -28,7 +28,7 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
         /* info */
         userViewModel.info.observe(viewLifecycleOwner) {
-            binding.txtMsg.text = it.orEmpty()
+            binding.txtMsg.text = it
         }
 
         /* 点击. */
