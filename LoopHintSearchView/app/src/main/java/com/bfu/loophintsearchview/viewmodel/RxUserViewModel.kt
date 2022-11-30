@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class RxUserViewModel : UserViewModel() {
 
-    override val info = MutableLiveData<String?>(null)
+    override val info = MutableLiveData<CharSequence?>(null)
 
     override val isLoading = MutableLiveData(false)
 

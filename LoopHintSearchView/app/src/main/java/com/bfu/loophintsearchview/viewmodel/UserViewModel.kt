@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 
 abstract class UserViewModel : ViewModel() {
 
-    abstract val info: LiveData<String?>
+    abstract val info: LiveData<CharSequence?>
 
     abstract val isLoading: LiveData<Boolean>
 

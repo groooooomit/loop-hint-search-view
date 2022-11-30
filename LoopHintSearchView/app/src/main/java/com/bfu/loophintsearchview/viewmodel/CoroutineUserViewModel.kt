@@ -1,5 +1,10 @@
+@file:Suppress("UNUSED_EXPRESSION")
+
 package com.bfu.loophintsearchview.viewmodel
 
+import android.graphics.Color
+import androidx.core.text.buildSpannedString
+import androidx.core.text.color
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -12,7 +17,7 @@ import kotlinx.coroutines.launch
 
 class CoroutineUserViewModel : UserViewModel() {
 
-    override val info = MutableLiveData<String?>(null)
+    override val info = MutableLiveData<CharSequence?>(null)
 
     override val isLoading = MutableLiveData(false)
 
@@ -37,12 +42,16 @@ class CoroutineUserViewModel : UserViewModel() {
 
                 /* 持久化. */
                 UserDao.save(user)
-                info.value = "登录成功：$user"
+                info.value = buildSpannedString {
+                    color(Color.GREEN) { "登录成功：$user" }
+                }
 
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                info.value = "登录异常: ${e.message}"
+                info.value = buildSpannedString {
+                    color(Color.GREEN) { "登录异常: ${e.message}" }
+                }
             } finally {
                 isLoading.value = false
             }
