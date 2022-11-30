@@ -7,7 +7,7 @@ import java.lang.ref.WeakReference
 import kotlin.coroutines.resume
 
 /**
- * 在当前页面弹出 [PrivacyDialog] 并挂起等待用户授权
+ * 在当前处于 RESUMED 状态的页面（栈顶 Activity）弹出 [PrivacyDialog] 并挂起等待用户授权
  *
  * @param id 用户 ID
  * @param timeoutMillis 超时时间（超过该时间授权框将自动关闭）
