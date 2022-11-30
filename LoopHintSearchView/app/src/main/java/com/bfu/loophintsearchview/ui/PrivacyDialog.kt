@@ -24,7 +24,7 @@ class PrivacyDialog : DialogFragment(R.layout.dialog_privacy) {
 
     private val listenerHolder by viewModels<ListenerHolder>()
 
-    /* onResultListener 需要用 ViewModel 来存储才不会在 Activity 重建时丢失. */
+    /* ⚠️ onResultListener 需要用 ViewModel 来存储才不会在 Fragment 重建时丢失. */
     var onResultListener: ((Boolean) -> Unit)?
         get() = listenerHolder.resultListener
         set(value) {
