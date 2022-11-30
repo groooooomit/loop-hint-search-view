@@ -3,12 +3,12 @@ package com.bfu.loophintsearchview.viewmodel
 import android.graphics.Color
 import androidx.core.text.buildSpannedString
 import androidx.core.text.color
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bfu.loophintsearchview.moc.UserDao
 import com.bfu.loophintsearchview.moc.UserService
 import com.bfu.loophintsearchview.ui.awaitPrivacyGrantDialogResult
+import com.ctrip.ibu.myctrip.util.livedata.SafelyMutableLiveData
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -17,9 +17,9 @@ import kotlinx.coroutines.rx2.rxSingle
 
 class RxUserViewModel : UserViewModel() {
 
-    override val info = MutableLiveData<CharSequence?>(null)
+    override val info = SafelyMutableLiveData<CharSequence?>(null)
 
-    override val isLoading = MutableLiveData(false)
+    override val isLoading = SafelyMutableLiveData(false)
 
     private var disposable: Disposable? = null
 
