@@ -19,10 +19,7 @@ suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000
     withTimeoutOrNull(timeoutMillis) {
         suspendCancellableCoroutine { cont ->
             val tag = "PrivacyDialog"
-            var activityRef: WeakReference<FragmentActivity>? = null
             val job = RunOnceOnAppActiveHelper.runOnceOnResumed {
-                /* 记录下 activity 引用. */
-                activityRef = WeakReference(this)
                 /* 弹出 Privacy 弹窗. */
                 PrivacyDialog.newInstance(id)
                     .apply {
@@ -34,10 +31,11 @@ suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000
             cont.invokeOnCancellation {
                 job.cancel()
                 /* 找到 dialog 并关闭. */
-                activityRef?.get()?.supportFragmentManager
+                RunOnceOnAppActiveHelper.currentResumedActivity
+                    ?.supportFragmentManager
                     ?.findFragmentByTag(tag)
                     .let { it as? PrivacyDialog }
-                    ?.dismissAllowingStateLoss()
+                    ?.dismiss()
             }
         }
     }

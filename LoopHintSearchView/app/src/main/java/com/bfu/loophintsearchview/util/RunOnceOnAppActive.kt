@@ -11,7 +11,7 @@ import kotlinx.coroutines.Job
 
 object RunOnceOnAppActiveHelper {
 
-    private var currentResumedActivity: FragmentActivity? = null
+    var currentResumedActivity: FragmentActivity? = null
 
     fun runOnceOnResumed(action: FragmentActivity.() -> Unit): Job = applicationScope
         .launchWhenResumed {
