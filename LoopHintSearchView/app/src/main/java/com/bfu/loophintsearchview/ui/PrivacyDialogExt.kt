@@ -1,5 +1,6 @@
 package com.bfu.loophintsearchview.ui
 
+import androidx.fragment.app.FragmentActivity
 import com.bfu.loophintsearchview.util.RunOnceOnAppActiveHelper
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
@@ -17,19 +18,26 @@ import kotlin.coroutines.resume
 suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000): Boolean? =
     withTimeoutOrNull(timeoutMillis) {
         suspendCancellableCoroutine { cont ->
-            var dialogRef: WeakReference<PrivacyDialog>? = null
+            val tag = "PrivacyDialog"
+            var activityRef: WeakReference<FragmentActivity>? = null
             val job = RunOnceOnAppActiveHelper.runOnceOnResumed {
-                val dialog = PrivacyDialog.newInstance(id).apply {
-                    onResultListener = cont::resume
-                }
-                dialogRef = WeakReference(dialog)
-                dialog.show(supportFragmentManager, "PrivacyDialog")
+                /* 记录下 activity 引用. */
+                activityRef = WeakReference(this)
+                /* 弹出 Privacy 弹窗. */
+                PrivacyDialog.newInstance(id)
+                    .apply {
+                        onResultListener = cont::resume
+                    }.show(supportFragmentManager, tag)
             }
 
             /* 外部协程取消时取消内部任务. */
             cont.invokeOnCancellation {
                 job.cancel()
-                dialogRef?.get()?.dismissAllowingStateLoss()
+                /* 找到 dialog 并关闭. */
+                activityRef?.get()?.supportFragmentManager
+                    ?.findFragmentByTag(tag)
+                    .let { it as? PrivacyDialog }
+                    ?.dismissAllowingStateLoss()
             }
         }
     }

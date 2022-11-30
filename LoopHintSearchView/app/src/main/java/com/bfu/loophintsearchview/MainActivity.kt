@@ -14,9 +14,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        /* add fragment */
-        supportFragmentManager.commit {
-            replace(R.id.container, UserFragment::class.java, null)
+        /* add target fragment if not exists */
+        val page = supportFragmentManager.findFragmentById(R.id.container)
+        if (null == page) {
+            supportFragmentManager.commit {
+                add(R.id.container, UserFragment::class.java, null)
+            }
         }
     }
 

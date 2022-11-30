@@ -13,8 +13,8 @@ object RunOnceOnAppActiveHelper {
 
     private var currentResumedActivity: FragmentActivity? = null
 
-    fun runOnceOnResumed(action: FragmentActivity.() -> Unit): Job =
-        applicationScope.launchWhenResumed {
+    fun runOnceOnResumed(action: FragmentActivity.() -> Unit): Job = applicationScope
+        .launchWhenResumed {
             currentResumedActivity?.action()
         }
 
