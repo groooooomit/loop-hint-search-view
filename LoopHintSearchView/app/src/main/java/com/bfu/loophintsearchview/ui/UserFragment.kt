@@ -2,6 +2,7 @@ package com.bfu.loophintsearchview.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.text.buildSpannedString
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -28,7 +29,7 @@ class UserFragment : Fragment(R.layout.fragment_user) {
 
         /* info */
         userViewModel.info.observe(viewLifecycleOwner) {
-            binding.txtMsg.text = it
+            binding.txtMsg.text = buildSpannedString {  }
         }
 
         /* 点击. */

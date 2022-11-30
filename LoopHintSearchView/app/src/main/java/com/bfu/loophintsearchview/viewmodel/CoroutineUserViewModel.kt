@@ -43,14 +43,18 @@ class CoroutineUserViewModel : UserViewModel() {
                 /* 持久化. */
                 UserDao.save(user)
                 info.value = buildSpannedString {
-                    color(Color.GREEN) { "登录成功：$user" }
+                    color(Color.GREEN) {
+                        append("登录成功：$user")
+                    }
                 }
 
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
                 info.value = buildSpannedString {
-                    color(Color.RED) { "登录异常: ${e.message}" }
+                    color(Color.RED) {
+                        append("登录异常: ${e.message}")
+                    }
                 }
             } finally {
                 isLoading.value = false
