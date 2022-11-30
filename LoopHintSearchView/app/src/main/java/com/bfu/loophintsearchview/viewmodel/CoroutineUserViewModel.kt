@@ -41,16 +41,20 @@ class CoroutineUserViewModel : UserViewModel() {
                 val user = UserService.loginOrThrow(validId, validPwd)
 
                 /* 持久化. */
+                info.value = "持久化..."
                 UserDao.save(user)
+
+                // done
                 info.value = buildSpannedString {
                     color(Color.GREEN) {
                         append("登录成功：$user")
                     }
                 }
-
             } catch (e: CancellationException) {
+                // cancel
                 throw e
             } catch (e: Exception) {
+                // error
                 info.value = buildSpannedString {
                     color(Color.RED) {
                         append("登录异常: ${e.message}")
