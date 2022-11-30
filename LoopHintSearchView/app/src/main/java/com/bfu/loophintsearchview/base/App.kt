@@ -1,11 +1,13 @@
 package com.bfu.loophintsearchview.base
 
 import android.app.Application
+import com.bfu.loophintsearchview.util.RunOnceOnAppActiveHelper
 
 class App : Application() {
 
     init {
         instance = this
+        RunOnceOnAppActiveHelper.init(this)
     }
 
     companion object {

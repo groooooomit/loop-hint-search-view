@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="DialogTheme.AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/common_in_from_bottom</item>
+        <item name="android:windowExitAnimation">@anim/common_out_to_bottom</item>
+    </style>
+
 </resources>
