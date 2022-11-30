@@ -17,6 +17,8 @@ class UserFragment : Fragment(R.layout.fragment_user) {
     private val userViewModel by viewModels<UserViewModel> { CoroutineUserViewModel }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        /* type */
+        binding.txtType.text = userViewModel.javaClass.simpleName
 
         /* loading 状态. */
         userViewModel.isLoading.observe(viewLifecycleOwner) {
