@@ -61,6 +61,8 @@ class RxUserViewModel : UserViewModel() {
             info.value = "持久化..."
         }.flatMap {
             rxCompletable { UserDao.save(it) }.toSingle { it }
+        }.doOnDispose {
+            // cancel
         }.doFinally {
             isLoading.value = false
         }.subscribeBy(
