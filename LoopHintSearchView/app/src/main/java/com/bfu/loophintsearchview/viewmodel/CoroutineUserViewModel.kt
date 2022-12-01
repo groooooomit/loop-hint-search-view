@@ -31,10 +31,16 @@ class CoroutineUserViewModel : UserViewModel() {
                 val validId = id.takeIf { it.isNotEmpty() } ?: error("ID 不能为空")
                 val validPwd = password.takeIf { it.isNotEmpty() } ?: error("密码不能为空")
 
+                /* 检查是否需要用户授权. */
+                info.value = "正在检查是否需要用户授权..."
+                val needShow = UserService.checkShowPrivacyDialogOrThrow()
+
                 /* 用户授权. */
-                info.value = "等待用户授权..."
-                val grant = awaitPrivacyGrantDialogResult(id) ?: error("操作超时")
-                if (!grant) error("用户未授权")
+                if (needShow) {
+                    info.value = "等待用户授权..."
+                    val grant = awaitPrivacyGrantDialogResult(id) ?: error("操作超时")
+                    if (!grant) error("用户未授权")
+                }
 
                 /* 登录. */
                 info.value = "用户已授权，登录中..."

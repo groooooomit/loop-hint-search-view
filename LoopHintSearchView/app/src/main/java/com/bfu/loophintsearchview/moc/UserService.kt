@@ -5,6 +5,11 @@ import kotlinx.coroutines.delay
 interface UserService {
 
     /**
+     * 检查是否需要展示 Privacy 弹窗
+     */
+    suspend fun checkShowPrivacyDialogOrThrow(): Boolean
+
+    /**
      * 根据 [id] 登录并返回 [User] 信息
      */
     suspend fun loginOrThrow(id: String, pwd: String): User
@@ -17,6 +22,11 @@ interface UserService {
 ///////////////////////////////////////////////////////////////////////////
 
 private object UserServiceImpl : UserService {
+
+    override suspend fun checkShowPrivacyDialogOrThrow(): Boolean {
+        delay(1000)
+        return true
+    }
 
     override suspend fun loginOrThrow(id: String, pwd: String): User {
         delay(2000)
