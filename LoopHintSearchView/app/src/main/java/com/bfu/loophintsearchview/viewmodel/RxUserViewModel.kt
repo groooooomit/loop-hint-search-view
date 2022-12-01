@@ -44,7 +44,7 @@ class RxUserViewModel : UserViewModel() {
                         info.value = "等待用户授权..."
                     }.andThen(rxCompletable {
                         val grant = awaitPrivacyGrantDialogResult(id) ?: error("操作超时")
-                        if (!grant) error("用户未授权")
+                        if (!grant) error("用户拒绝授权")
                     }.toSingle { pair })
                 } else {
                     /* 不用授权，直接放行 */

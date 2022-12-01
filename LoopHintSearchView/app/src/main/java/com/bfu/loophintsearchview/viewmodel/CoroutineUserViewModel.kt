@@ -39,7 +39,7 @@ class CoroutineUserViewModel : UserViewModel() {
                 if (needShow) {
                     info.value = "等待用户授权..."
                     val grant = awaitPrivacyGrantDialogResult(id) ?: error("操作超时")
-                    if (!grant) error("用户未授权")
+                    if (!grant) error("用户拒绝授权")
                 }
 
                 /* 登录. */
