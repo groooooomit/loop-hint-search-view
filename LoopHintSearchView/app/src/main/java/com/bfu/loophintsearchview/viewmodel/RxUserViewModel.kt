@@ -25,13 +25,15 @@ class RxUserViewModel : UserViewModel() {
     private var disposable: Disposable? = null
 
     override fun login(id: String, password: String) {
-        info.value = null
-        isLoading.value = true
         disposable = Single.fromCallable {
             /* 参数检查. */
             val validId = id.takeIf { it.isNotEmpty() } ?: error("ID 不能为空")
             val validPwd = password.takeIf { it.isNotEmpty() } ?: error("密码不能为空")
             validId to validPwd
+        }.doOnSubscribe {
+            /* reset state. */
+            info.value = null
+            isLoading.value = true
         }.doOnSuccess {
             info.value = "正在检查是否需要用户授权..."
         }.flatMap { pair ->

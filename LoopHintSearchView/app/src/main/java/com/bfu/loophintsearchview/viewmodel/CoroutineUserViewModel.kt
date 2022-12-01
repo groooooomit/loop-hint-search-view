@@ -23,9 +23,10 @@ class CoroutineUserViewModel : UserViewModel() {
 
     override fun login(id: String, password: String) {
         viewModelScope.launch {
-            info.value = null
-            isLoading.value = true
             try {
+                /* reset state. */
+                info.value = null
+                isLoading.value = true
 
                 /* 参数检查. */
                 val validId = id.takeIf { it.isNotEmpty() } ?: error("ID 不能为空")
