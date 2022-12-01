@@ -9,7 +9,7 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Job
 
-object RunOnceOnAppActiveHelper {
+object AppHelper {
 
     var currentResumedActivity: FragmentActivity? = null
 

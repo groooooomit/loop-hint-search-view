@@ -1,6 +1,6 @@
 package com.bfu.loophintsearchview.ui
 
-import com.bfu.loophintsearchview.util.RunOnceOnAppActiveHelper
+import com.bfu.loophintsearchview.util.AppHelper
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withTimeoutOrNull
 import kotlin.coroutines.resume
@@ -17,7 +17,7 @@ suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000
     withTimeoutOrNull(timeoutMillis) {
         suspendCancellableCoroutine { cont ->
             val tag = "PrivacyDialog"
-            val job = RunOnceOnAppActiveHelper.runOnceOnResumed {
+            val job = AppHelper.runOnceOnResumed {
                 /* 弹出 Privacy 弹窗. */
                 PrivacyDialog.newInstance(id)
                     .also { dialog ->
@@ -35,7 +35,7 @@ suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000
             cont.invokeOnCancellation {
                 job.cancel()
                 /* 找到 dialog 并关闭. */
-                RunOnceOnAppActiveHelper.currentResumedActivity
+                AppHelper.currentResumedActivity
                     ?.supportFragmentManager
                     ?.findFragmentByTag(tag)
                     .let { it as? PrivacyDialog }
