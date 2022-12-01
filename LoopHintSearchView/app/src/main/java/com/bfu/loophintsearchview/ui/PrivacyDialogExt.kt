@@ -35,11 +35,12 @@ suspend fun awaitPrivacyGrantDialogResult(id: String, timeoutMillis: Long = 5000
             cont.invokeOnCancellation {
                 job.cancel()
                 /* 找到 dialog 并关闭. */
-                AppHelper.currentResumedActivity
-                    ?.supportFragmentManager
-                    ?.findFragmentByTag(tag)
-                    .let { it as? PrivacyDialog }
-                    ?.dismiss()
+                AppHelper.runOnceOnResumed {
+                    supportFragmentManager
+                        .findFragmentByTag(tag)
+                        .let { it as? PrivacyDialog }
+                        ?.dismiss()
+                }
             }
         }
     }
