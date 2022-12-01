@@ -9,6 +9,7 @@ import com.bfu.loophintsearchview.moc.UserDao
 import com.bfu.loophintsearchview.moc.UserService
 import com.bfu.loophintsearchview.ui.awaitPrivacyGrantDialogResult
 import com.ctrip.ibu.myctrip.util.livedata.SafelyMutableLiveData
+import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
 import io.reactivex.rxkotlin.subscribeBy
@@ -32,13 +33,24 @@ class RxUserViewModel : UserViewModel() {
             val validPwd = password.takeIf { it.isNotEmpty() } ?: error("密码不能为空")
             validId to validPwd
         }.doOnSuccess {
-            /* 用户授权. */
-            info.value = "等待用户授权..."
-        }.flatMap {
-            rxCompletable {
-                val grant = awaitPrivacyGrantDialogResult(id) ?: error("操作超时")
-                if (!grant) error("用户未授权")
-            }.toSingle { it }
+            info.value = "正在检查是否需要用户授权..."
+        }.flatMap { pair ->
+            rxSingle {
+                UserService.checkShowPrivacyDialogOrThrow()
+            }.flatMap { needShow ->
+                if (needShow) {
+                    /* 用户授权. */
+                    Completable.fromAction {
+                        info.value = "等待用户授权..."
+                    }.andThen(rxCompletable {
+                        val grant = awaitPrivacyGrantDialogResult(id) ?: error("操作超时")
+                        if (!grant) error("用户未授权")
+                    }.toSingle { pair })
+                } else {
+                    /* 不用授权，直接放行 */
+                    Single.just(pair)
+                }
+            }
         }.doOnSuccess {
             /* 登录. */
             info.value = "用户已授权，登录中..."
