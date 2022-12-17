@@ -25,9 +25,7 @@ fun LoopHintSearch() {
             .border(
                 width = 1.dp,
                 color = Color.Black,
-                shape = RoundedCornerShape(
-                    20.dp
-                )
+                shape = RoundedCornerShape(20.dp)
             )
             .fillMaxWidth()
             .wrapContentHeight()
