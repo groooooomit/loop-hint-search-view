@@ -52,6 +52,7 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
 
         val (searchIcon, preHintText) = createRefs()
 
+        /* 搜索图标. */
         Image(
             painter = painterResource(R.drawable.ic_search),
             contentDescription = "",
@@ -64,6 +65,7 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                 }
         )
 
+        /* 轮播任务. */
         if (hints.isNotEmpty()) {
             LaunchedEffect(hints) {
                 while (isActive) {
@@ -75,6 +77,7 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
             }
         }
 
+        /* 搜索提示文本. */
         HintText(
             text = hint,
             modifier = Modifier
