@@ -9,7 +9,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -41,7 +40,6 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                 shape = RoundedCornerShape(20.dp)
             )
             .fillMaxWidth()
-            .wrapContentHeight()
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
