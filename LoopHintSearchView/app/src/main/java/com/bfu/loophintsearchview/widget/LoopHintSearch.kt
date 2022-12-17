@@ -43,7 +43,9 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
             .clickable(
                 interactionSource = remember { MutableInteractionSource() },
                 indication = null
-            ) { onClick(hint) }
+            ) {
+                onClick(hint)
+            }
     ) {
 
         val (searchIcon, preHintText) = createRefs()
@@ -77,6 +79,7 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                 .padding(horizontal = 12.dp)
                 .constrainAs(preHintText) {
                     width = Dimension.fillToConstraints
+                    height = Dimension.fillToConstraints
                     start.linkTo(searchIcon.end)
                     end.linkTo(parent.end)
                     top.linkTo(parent.top)
