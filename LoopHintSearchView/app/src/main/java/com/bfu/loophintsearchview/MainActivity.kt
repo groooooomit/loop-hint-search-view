@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import com.bfu.loophintsearchview.databinding.ActivityMainBinding
-import com.bfu.loophintsearchview.ui.UserFragment
+import com.bfu.loophintsearchview.ui.SearchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         val page = supportFragmentManager.findFragmentById(R.id.container)
         if (null == page) {
             supportFragmentManager.commit {
-                add(R.id.container, UserFragment::class.java, null)
+                add(R.id.container, SearchFragment::class.java, null)
             }
         }
     }
