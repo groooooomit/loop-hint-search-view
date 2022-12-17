@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -99,6 +100,7 @@ fun HintText(text: String, modifier: Modifier = Modifier) {
             text = targetHint,
             color = Color.Black,
             maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
             fontSize = 14.sp,
         )
     }
