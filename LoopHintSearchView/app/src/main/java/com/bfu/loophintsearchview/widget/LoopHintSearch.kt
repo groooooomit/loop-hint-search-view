@@ -32,7 +32,7 @@ import kotlinx.coroutines.isActive
 @Composable
 fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit = {}) {
 
-    var hint by remember { mutableStateOf("") }
+    var hint by remember { mutableStateOf(hints.firstOrNull().orEmpty()) }
 
     ConstraintLayout(
         modifier = Modifier
