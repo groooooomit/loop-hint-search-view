@@ -110,5 +110,5 @@ fun HintText(text: String, modifier: Modifier = Modifier) {
 )
 @Composable
 fun DefaultPreview() {
-    LoopHintSearch()
+    LoopHintSearch(listOf("Lets Plan Your Trips"))
 }
