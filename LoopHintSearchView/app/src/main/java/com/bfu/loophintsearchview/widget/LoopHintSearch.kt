@@ -2,12 +2,13 @@ package com.bfu.loophintsearchview.widget
 
 import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -40,14 +41,16 @@ fun LoopHintSearch(hints: List<String> = emptyList()) {
 
         val (searchIcon, preHintText) = createRefs()
 
-        Icon(
+        Image(
             painter = painterResource(R.drawable.ic_search),
             contentDescription = "",
-            modifier = Modifier.constrainAs(searchIcon) {
-                start.linkTo(parent.start, 12.dp)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            }
+            modifier = Modifier
+                .size(30.dp)
+                .constrainAs(searchIcon) {
+                    start.linkTo(parent.start, 12.dp)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                }
         )
 
         var hint by remember { mutableStateOf("") }
