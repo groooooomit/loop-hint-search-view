@@ -18,7 +18,9 @@ class ComposeLoopHintSearchView @JvmOverloads constructor(
                 )
             }
             .apply {
-                setContent { LoopHintSearch() }
+                setContent {
+                    LoopHintSearch()
+                }
             }
             .apply(::addView)
     }

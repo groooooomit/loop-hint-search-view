@@ -8,6 +8,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -17,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstrainScope
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun LoopHintSearch() {
@@ -47,14 +50,18 @@ fun LoopHintSearch() {
             top.linkTo(parent.top)
             bottom.linkTo(parent.bottom)
         }
+
+        val hint by viewModel<LoopHintSearchViewModel>()
+            .hintListFlow.collectAsState("Lets Plan Your Trips")
+
         HintText(
-            text = "Lets Plan Your Trips",
+            text = hint,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .constrainAs(preHintText, hintConstrainBlock)
         )
         HintText(
-            text = "Lets Plan Your Trips",
+            text = hint,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .constrainAs(nextHintText, hintConstrainBlock)
