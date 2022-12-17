@@ -37,7 +37,9 @@ fun LoopHintSearch() {
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        val (searchIcon, preHintText, nextHintText) = createRefs()
+
+        val (searchIcon, preHintText) = createRefs()
+
         Icon(
             painter = painterResource(android.R.drawable.ic_menu_search),
             contentDescription = "",
@@ -48,24 +50,10 @@ fun LoopHintSearch() {
             }
         )
 
-        val hint by viewModel<LoopHintSearchViewModel>()
-            .hintListFlow.collectAsState("Lets Plan Your Trips")
+        val hint by viewModel<LoopHintSearchViewModel>().hintListFlow.collectAsState("")
 
-        AnimatedContent(
-            targetState = hint,
-            transitionSpec = {
-                val slideIn = slideIn(
-                    animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
-                ) {
-                    IntOffset(0, it.height)
-                }
-                val slideOut = slideOut(
-                    animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
-                ) {
-                    IntOffset(0, -it.height)
-                }
-                slideIn with slideOut
-            },
+        HintText(
+            text = hint,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .constrainAs(preHintText) {
@@ -75,22 +63,38 @@ fun LoopHintSearch() {
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 }
-        ) { targetHint ->
-            HintText(text = targetHint)
-        }
+        )
     }
 
 }
 
+@ExperimentalAnimationApi
 @Composable
 fun HintText(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        color = Color.Black,
-        maxLines = 1,
-        fontSize = 14.sp,
+    AnimatedContent(
+        targetState = text,
+        transitionSpec = {
+            val slideIn = slideIn(
+                animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
+            ) {
+                IntOffset(0, it.height)
+            }
+            val slideOut = slideOut(
+                animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
+            ) {
+                IntOffset(0, -it.height)
+            }
+            slideIn with slideOut
+        },
         modifier = modifier
-    )
+    ) { targetHint ->
+        Text(
+            text = targetHint,
+            color = Color.Black,
+            maxLines = 1,
+            fontSize = 14.sp,
+        )
+    }
 }
 
 @ExperimentalAnimationApi
