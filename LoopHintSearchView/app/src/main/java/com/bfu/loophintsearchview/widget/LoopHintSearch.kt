@@ -1,6 +1,7 @@
 package com.bfu.loophintsearchview.widget
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -21,6 +22,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.bfu.loophintsearchview.base.App
 
 @ExperimentalAnimationApi
 @Composable
@@ -52,10 +54,14 @@ fun LoopHintSearch() {
         AnimatedContent(
             targetState = hint,
             transitionSpec = {
-                val slideIn = slideIn {
+                val slideIn = slideIn(
+                    animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
+                ) {
                     IntOffset(0, it.height)
                 }
-                val slideOut = slideOut {
+                val slideOut = slideOut(
+                    animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
+                ) {
                     IntOffset(0, -it.height)
                 }
                 slideIn with slideOut
