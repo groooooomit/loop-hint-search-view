@@ -53,8 +53,8 @@ fun LoopHintSearch(hints: List<String> = emptyList()) {
 
         var hint by remember { mutableStateOf("") }
 
-        LaunchedEffect(hints) {
-            withContext(Dispatchers.Default) {
+        if (hints.isNotEmpty()) {
+            LaunchedEffect(hints) {
                 while (isActive) {
                     hints.forEach {
                         hint = it
