@@ -116,4 +116,7 @@ dependencies {
     implementation("androidx.compose.runtime:runtime-livedata")
     // Optional - Integration with RxJava
     implementation("androidx.compose.runtime:runtime-rxjava2")
+
+    // constraint layout https://developer.android.com/jetpack/compose/layouts/constraintlayout#get-started
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 }
