@@ -70,9 +70,7 @@ fun LoopHintSearch() {
                     bottom.linkTo(parent.bottom)
                 }
         ) { targetHint ->
-            HintText(
-                text = targetHint,
-            )
+            HintText(text = targetHint)
         }
     }
 
