@@ -4,6 +4,8 @@ import androidx.compose.animation.*
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,7 +29,10 @@ import kotlinx.coroutines.isActive
 
 @ExperimentalAnimationApi
 @Composable
-fun LoopHintSearch(hints: List<String> = emptyList()) {
+fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit = {}) {
+
+    var hint by remember { mutableStateOf("") }
+
     ConstraintLayout(
         modifier = Modifier
             .border(
@@ -37,6 +42,10 @@ fun LoopHintSearch(hints: List<String> = emptyList()) {
             )
             .fillMaxWidth()
             .wrapContentHeight()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null
+            ) { onClick(hint) }
     ) {
 
         val (searchIcon, preHintText) = createRefs()
@@ -52,8 +61,6 @@ fun LoopHintSearch(hints: List<String> = emptyList()) {
                     bottom.linkTo(parent.bottom)
                 }
         )
-
-        var hint by remember { mutableStateOf("") }
 
         if (hints.isNotEmpty()) {
             LaunchedEffect(hints) {

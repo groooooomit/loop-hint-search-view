@@ -3,6 +3,7 @@ package com.bfu.loophintsearchview.widget
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -25,7 +26,9 @@ class ComposeLoopHintSearchView @JvmOverloads constructor(
                 )
                 setContent {
                     val hints by hintListFlow.collectAsState()
-                    LoopHintSearch(hints)
+                    LoopHintSearch(hints) {
+                        Toast.makeText(context, "hint: $it", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
             .apply(::addView)
