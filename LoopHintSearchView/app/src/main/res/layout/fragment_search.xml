@@ -11,6 +11,22 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Compose"
+        app:layout_constraintBottom_toTopOf="@id/composeSearchView"
+        app:layout_constraintStart_toStartOf="@id/composeSearchView" />
+
+    <!-- Compose -->
+    <com.bfu.loophintsearchview.widget.ComposeLoopHintSearchView
+        android:id="@+id/composeSearchView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/flowSearchView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Flow"
         app:layout_constraintBottom_toTopOf="@id/flowSearchView"
         app:layout_constraintStart_toStartOf="@id/flowSearchView" />
@@ -20,9 +36,9 @@
         android:id="@+id/flowSearchView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toTopOf="@id/rxSearchView"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/composeSearchView" />
 
 
     <TextView
