@@ -18,7 +18,7 @@ class ComposeLoopHintSearchView @JvmOverloads constructor(
     private val hintListFlow = MutableStateFlow(listOf<String>())
 
     init {
-        ComposeView(context, attrs, defStyleAttr)
+        ComposeView(context)
             .apply {
                 layoutParams = LayoutParams(
                     LayoutParams.MATCH_PARENT,
