@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import com.bfu.loophintsearchview.R
 import com.bfu.loophintsearchview.base.App
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -40,7 +41,7 @@ fun LoopHintSearch(hints: List<String> = emptyList()) {
         val (searchIcon, preHintText) = createRefs()
 
         Icon(
-            painter = painterResource(android.R.drawable.ic_menu_search),
+            painter = painterResource(R.drawable.ic_search),
             contentDescription = "",
             modifier = Modifier.constrainAs(searchIcon) {
                 start.linkTo(parent.start, 12.dp)

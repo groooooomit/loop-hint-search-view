@@ -2,10 +2,12 @@ package com.bfu.loophintsearchview
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.fragment.app.commit
 import com.bfu.loophintsearchview.databinding.ActivityMainBinding
 import com.bfu.loophintsearchview.ui.SearchFragment
 
+@ExperimentalAnimationApi
 class MainActivity : AppCompatActivity() {
 
     private val binding by lazy { ActivityMainBinding.inflate(layoutInflater) }
