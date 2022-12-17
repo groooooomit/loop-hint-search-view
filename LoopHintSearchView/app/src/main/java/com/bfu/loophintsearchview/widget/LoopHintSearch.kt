@@ -9,24 +9,24 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bfu.loophintsearchview.base.App
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.withContext
 
 @ExperimentalAnimationApi
 @Composable
-fun LoopHintSearch() {
+fun LoopHintSearch(hints: List<String> = emptyList()) {
     ConstraintLayout(
         modifier = Modifier
             .border(
@@ -50,7 +50,18 @@ fun LoopHintSearch() {
             }
         )
 
-        val hint by viewModel<LoopHintSearchViewModel>().hintListFlow.collectAsState("")
+        var hint by remember { mutableStateOf("") }
+
+        LaunchedEffect(hints) {
+            withContext(Dispatchers.Default) {
+                while (isActive) {
+                    hints.forEach {
+                        hint = it
+                        delay(App.ANIM_DURATION + App.ITEM_SHOWING_DURATION)
+                    }
+                }
+            }
+        }
 
         HintText(
             text = hint,
@@ -74,15 +85,11 @@ fun HintText(text: String, modifier: Modifier = Modifier) {
     AnimatedContent(
         targetState = text,
         transitionSpec = {
-            val slideIn = slideIn(
-                animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
-            ) {
-                IntOffset(0, it.height)
+            val slideIn = slideInVertically(tween(durationMillis = App.ANIM_DURATION.toInt())) {
+                it
             }
-            val slideOut = slideOut(
-                animationSpec = tween(durationMillis = App.ANIM_DURATION.toInt())
-            ) {
-                IntOffset(0, -it.height)
+            val slideOut = slideOutVertically(tween(durationMillis = App.ANIM_DURATION.toInt())) {
+                -it
             }
             slideIn with slideOut
         },

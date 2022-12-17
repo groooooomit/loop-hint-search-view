@@ -2,21 +2,19 @@ package com.bfu.loophintsearchview.ui
 
 import android.os.Bundle
 import android.view.View
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bfu.loophintsearchview.R
 import com.bfu.loophintsearchview.databinding.FragmentSearchBinding
-import com.bfu.loophintsearchview.widget.LoopHintSearchViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
+@ExperimentalAnimationApi
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
     private val binding by lazy { FragmentSearchBinding.bind(requireView()) }
-
-    private val hintViewModel by viewModels<LoopHintSearchViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mockData()
@@ -47,7 +45,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun showData(data: List<String>) {
-        hintViewModel.updateHint(data)
+        binding.composeSearchView.updateHint(data)
         binding.flowSearchView.updateHint(data)
         binding.rxSearchView.updateHint(data)
     }
