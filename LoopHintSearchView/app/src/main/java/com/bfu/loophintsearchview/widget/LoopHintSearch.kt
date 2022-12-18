@@ -65,17 +65,6 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                 }
         )
 
-        /* 轮播任务. */
-        if (hints.isNotEmpty()) {
-            LaunchedEffect(hints) {
-                while (isActive) {
-                    hints.forEach {
-                        hint = it
-                        delay(App.ANIM_DURATION + App.ITEM_SHOWING_DURATION)
-                    }
-                }
-            }
-        }
 
         /* 搜索提示文本. */
         HintText(
@@ -91,6 +80,18 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                     bottom.linkTo(parent.bottom)
                 }
         )
+
+        /* 轮播任务. */
+        if (hints.isNotEmpty()) {
+            LaunchedEffect(hints) {
+                while (isActive) {
+                    hints.forEach {
+                        hint = it
+                        delay(App.ANIM_DURATION + App.ITEM_SHOWING_DURATION)
+                    }
+                }
+            }
+        }
     }
 
 }
