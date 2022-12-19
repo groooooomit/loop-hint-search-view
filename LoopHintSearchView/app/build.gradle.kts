@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.bfu.loophintsearchview"
-    compileSdk = 33
+    compileSdk = libs.versions.compileSdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.bfu.loophintsearchview"
-        minSdk = 23
-        targetSdk = 33
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = libs.versions.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
         multiDexEnabled = true
@@ -56,17 +56,15 @@ dependencies {
     implementation("androidx.fragment:fragment-ktx:1.5.5")
 
     /* lifecycle */
-    val lifecycleVersion = "2.5.1"
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-process:$lifecycleVersion")
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.reactivestreams.ktx)
+    implementation(libs.androidx.lifecycle.process)
 
     /* rxJava2 */
-    implementation("io.reactivex.rxjava2:rxjava:2.2.20")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
-    implementation("io.reactivex.rxjava2:rxkotlin:2.4.0")
+    implementation(libs.bundles.rxJava2)
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-rx2:1.6.4")
 
     testImplementation("junit:junit:4.13.2")

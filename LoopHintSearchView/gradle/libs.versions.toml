@@ -1,0 +1,29 @@
+# see https://docs.gradle.org/current/userguide/platforms.html
+
+[versions]
+
+compileSdk = "33"
+minSdk = "23"
+targetSdk = "33"
+
+androidx-lifecycle = "2.5.1"
+
+[libraries]
+
+# lifecycle
+androidx-lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-livedata-ktx = { module = "androidx.lifecycle:lifecycle-livedata-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
+
+# rxjava2
+rxjava2-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.20" }
+rxjava2-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.1" }
+rxjava2-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.4.0" }
+
+
+[bundles]
+rxJava2 = ["rxjava2-rxjava", "rxjava2-rxandroid", "rxjava2-rxkotlin"]
+
+
