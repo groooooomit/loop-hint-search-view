@@ -24,6 +24,10 @@ rxjava2-rxkotlin = { module = "io.reactivex.rxjava2:rxkotlin", version = "2.4.0"
 
 
 [bundles]
-rxJava2 = ["rxjava2-rxjava", "rxjava2-rxandroid", "rxjava2-rxkotlin"]
+rxJava2 = [
+    "rxjava2-rxjava",
+    "rxjava2-rxandroid",
+    "rxjava2-rxkotlin"
+]
 
 
