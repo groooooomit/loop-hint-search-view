@@ -17,6 +17,8 @@ androidx-lifecycle-runtime-ktx = { module = "androidx.lifecycle:lifecycle-runtim
 androidx-lifecycle-reactivestreams-ktx = { module = "androidx.lifecycle:lifecycle-reactivestreams-ktx", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 
+androidx-window = { module = "androidx.window:window", version = "1.0.0" }
+
 # rxjava2
 rxjava2-rxjava = { module = "io.reactivex.rxjava2:rxjava", version = "2.2.20" }
 rxjava2-rxandroid = { module = "io.reactivex.rxjava2:rxandroid", version = "2.1.1" }
