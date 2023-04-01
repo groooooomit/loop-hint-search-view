@@ -48,5 +48,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         binding.composeSearchView.updateHint(data)
         binding.flowSearchView.updateHint(data)
         binding.rxSearchView.updateHint(data)
+        binding.rxDisposableSearchView.updateHint(data)
     }
 }
