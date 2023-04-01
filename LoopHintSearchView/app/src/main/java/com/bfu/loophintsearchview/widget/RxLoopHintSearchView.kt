@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import com.bfu.loophintsearchview.base.App
 import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
@@ -142,7 +141,7 @@ private fun <T> Flowable<T>.collectLatest(
     onBackpressureLatest()
         .switchMapCompletable(action)
         .toFlowable<Unit>()
-        .toLiveData().observe(lifecycleOwner, Observer {})
+        .toLiveData().observe(lifecycleOwner) {}
 }
 
 
