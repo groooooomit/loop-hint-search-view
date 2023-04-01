@@ -42,8 +42,10 @@ android {
         viewBinding = true
         compose = true
     }
+
+    /* compose https://developer.android.com/jetpack/androidx/releases/compose#declaring_dependencies */
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.2"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
 }
 

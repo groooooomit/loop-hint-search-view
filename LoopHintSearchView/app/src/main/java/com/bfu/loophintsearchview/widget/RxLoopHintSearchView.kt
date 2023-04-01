@@ -9,10 +9,10 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.bfu.loophintsearchview.util.asCompletable
 import com.bfu.loophintsearchview.base.App
 import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
+import com.bfu.loophintsearchview.util.asCompletable
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.coroutines.*
@@ -55,8 +55,7 @@ class RxLoopHintSearchView @JvmOverloads constructor(
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
         _viewLifecycleOwner = object : LifecycleOwner {
-            private val registry = LifecycleRegistry(this)
-            override fun getLifecycle() = registry
+            override val lifecycle = LifecycleRegistry(this)
         }.apply {
             lifecycle.currentState = Lifecycle.State.RESUMED
         }
