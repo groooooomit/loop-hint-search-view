@@ -9,7 +9,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
-import com.bfu.loophintsearchview.asCompletable
+import com.bfu.loophintsearchview.util.asCompletable
 import com.bfu.loophintsearchview.base.App
 import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding

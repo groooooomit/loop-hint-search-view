@@ -1,4 +1,4 @@
-package com.ctrip.ibu.myctrip.util.livedata
+package com.bfu.loophintsearchview.util
 
 import android.os.Handler
 import android.os.Looper

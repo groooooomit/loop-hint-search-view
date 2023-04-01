@@ -1,4 +1,4 @@
-package com.ctrip.ibu.myctrip.util.livedata
+package com.bfu.loophintsearchview.util
 
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty

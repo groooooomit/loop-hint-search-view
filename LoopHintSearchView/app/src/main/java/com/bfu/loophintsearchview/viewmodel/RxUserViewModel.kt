@@ -8,7 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.bfu.loophintsearchview.moc.UserDao
 import com.bfu.loophintsearchview.moc.UserService
 import com.bfu.loophintsearchview.ui.awaitPrivacyGrantDialogResult
-import com.ctrip.ibu.myctrip.util.livedata.SafelyMutableLiveData
+import com.bfu.loophintsearchview.util.SafelyMutableLiveData
 import io.reactivex.Completable
 import io.reactivex.Single
 import io.reactivex.disposables.Disposable
