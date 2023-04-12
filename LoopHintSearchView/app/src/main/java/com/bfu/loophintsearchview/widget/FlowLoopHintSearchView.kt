@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
-import com.bfu.loophintsearchview.util.awaitEnd
+import androidx.lifecycle.findViewTreeLifecycleOwner
+import androidx.lifecycle.withResumed
 import com.bfu.loophintsearchview.base.App
 import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
+import com.bfu.loophintsearchview.util.awaitEnd
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.*
 import kotlin.properties.Delegates
 
 /**
@@ -40,6 +40,16 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
         }
     }
 
+    private suspend fun awaitViewActive() {
+        currentCoroutineContext().ensureActive()
+        val hostLifecycleOwner = findViewTreeLifecycleOwner() ?: return
+//        hostLifecycleOwner.whenResumed { }
+        // sheng
+        hostLifecycleOwner.withResumed { }
+
+    }
+
+
     fun updateHint(hintItems: List<String>) {
         hintListFlow.value = hintItems
     }
@@ -64,7 +74,7 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
         repeat(if (hints.size <= 1) 1 else Int.MAX_VALUE) {
             hints.forEachIndexed { index, item ->
                 /* 进入循环体主动检查协程状态. */
-                currentCoroutineContext().ensureActive()
+                awaitViewActive()
                 /* 切换到指定 item */
                 showItemAnimatedly(index, item)
             }
@@ -78,18 +88,22 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
             /* nextHintText 在动画执行开始前更新 text. */
             binding.nextHintText.text = item
 
-            /* 新的 hint 从视图区域下方移进来. */
-            val nextAnim = launch {
-                binding.nextHintText.slideIn()
+            coroutineScope {
+                /* 新的 hint 从视图区域下方移进来. */
+                launch {
+                    binding.nextHintText.slideIn()
+                }
+
+                /* 当前的 hint 从视图区域向上移出去. */
+                launch {
+                    binding.preHintText.slideOut()
+                }
             }
 
-            /* 当前的 hint 从视图区域向上移出去. */
-            val preAnim = launch {
-                binding.preHintText.slideOut()
-            }
+            // await anim done
 
             /* 等待俩动画全部结束. */
-            joinAll(preAnim, nextAnim)
+//            joinAll(preAnim, nextAnim)
 
             /* preHintText 在动画执行结束后更新 text. */
             binding.preHintText.text = item
