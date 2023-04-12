@@ -1,9 +1,9 @@
 package com.bfu.loophintsearchview.widget
 
 import androidx.compose.animation.*
+import androidx.compose.animation.core.AnimationConstants
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.LocalIndication
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -66,10 +66,12 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                 }
         )
 
+        val duration = App.ANIM_DURATION.toInt()
 
         /* 搜索提示文本. */
         HintText(
             text = hint,
+            animDuration = duration,
             modifier = Modifier
                 .padding(horizontal = 12.dp)
                 .constrainAs(preHintText) {
@@ -88,7 +90,8 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
                 while (isActive) {
                     hints.forEach {
                         hint = it
-                        delay(App.ANIM_DURATION + App.ITEM_SHOWING_DURATION)
+                        // todo 监听动画执行结束？
+                        delay(duration + App.ITEM_SHOWING_DURATION)
                     }
                 }
             }
@@ -99,14 +102,18 @@ fun LoopHintSearch(hints: List<String> = emptyList(), onClick: (String) -> Unit 
 
 @ExperimentalAnimationApi
 @Composable
-fun HintText(text: String, modifier: Modifier = Modifier) {
+fun HintText(
+    text: String,
+    modifier: Modifier = Modifier,
+    animDuration: Int = AnimationConstants.DefaultDurationMillis,
+) {
     AnimatedContent(
         targetState = text,
         transitionSpec = {
-            val slideIn = slideInVertically(tween(durationMillis = App.ANIM_DURATION.toInt())) {
+            val slideIn = slideInVertically(tween(durationMillis = animDuration)) {
                 it
             }
-            val slideOut = slideOutVertically(tween(durationMillis = App.ANIM_DURATION.toInt())) {
+            val slideOut = slideOutVertically(tween(durationMillis = animDuration)) {
                 -it
             }
             slideIn with slideOut
