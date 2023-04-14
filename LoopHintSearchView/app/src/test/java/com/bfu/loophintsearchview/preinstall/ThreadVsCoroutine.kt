@@ -1,8 +1,6 @@
-package com.bfu.loophintsearchview
+package com.bfu.loophintsearchview.preinstall
 
 import io.reactivex.Completable
-import io.reactivex.Single
-import io.reactivex.rxkotlin.subscribeBy
 import kotlinx.coroutines.delay
 import org.junit.Test
 import java.io.File

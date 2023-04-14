@@ -1,8 +1,25 @@
 package com.bfu.loophintsearchview.util
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.launch
+
+fun <T> Flow<T>.latest(): Flow<T> = flow {
+    var preJob: Job? = null
+    coroutineScope {
+        this@latest.collect {
+            preJob?.cancelAndJoin()
+            preJob = launch(start = CoroutineStart.UNDISPATCHED) {
+                this@flow.emit(it)
+            }
+        }
+    }
+}
 
 fun <T> Flow<T>.onMyEach(action: (T) -> Unit): Flow<T> {
     return MyOnEachFLow(this, action)
@@ -10,11 +27,6 @@ fun <T> Flow<T>.onMyEach(action: (T) -> Unit): Flow<T> {
 
 fun <T, R> Flow<T>.myMap(action: (T) -> R): Flow<R> {
     return MyMapFLow(this, action)
-}
-
-
-fun <T> Flow<T>.myLatest(): Flow<T> {
-    return MyLatestFlow(this)
 }
 
 
@@ -42,23 +54,4 @@ class MyMapFLow<T, R>(
         }
     }
 
-}
-
-class MyLatestFlow<T>(
-    private val originFLow: Flow<T>,
-) : Flow<T> {
-    override suspend fun collect(collector: FlowCollector<T>) {
-        var preJob: Job? = null
-        coroutineScope {
-            println("inner collect start")
-            originFLow.collect {
-                preJob?.cancelAndJoin()
-                preJob = launch(start = CoroutineStart.UNDISPATCHED) {
-                    collector.emit(it)
-                }
-            }
-            println("inner collect done 1")
-        }
-        println("inner collect done 2")
-    }
 }
