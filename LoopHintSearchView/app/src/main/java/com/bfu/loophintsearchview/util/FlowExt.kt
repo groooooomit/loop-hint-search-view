@@ -22,6 +22,21 @@ fun <T> Flow<T>.latest(): Flow<T> = object : Flow<T> {
     }
 }
 
+fun <T> Flow<List<T>>.shrink(): Flow<List<T>> = object : Flow<List<T>> {
+    override suspend fun collect(collector: FlowCollector<List<T>>) {
+        var previews: List<T> = emptyList()
+        coroutineScope {
+            this@shrink.collect {
+                val result = if (previews.isEmpty()) it else it.toMutableList().apply {
+                    removeAll(previews)
+                }
+                previews = result
+                collector.emit(result)
+            }
+        }
+    }
+}
+
 fun <T> Flow<T>.onMyEach(action: (T) -> Unit): Flow<T> {
     return MyOnEachFLow(this, action)
 }
