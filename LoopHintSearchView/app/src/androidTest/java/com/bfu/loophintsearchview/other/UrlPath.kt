@@ -1,4 +1,4 @@
-package com.bfu.loophintsearchview
+package com.bfu.loophintsearchview.other
 
 import android.net.Uri
 import androidx.test.ext.junit.runners.AndroidJUnit4
