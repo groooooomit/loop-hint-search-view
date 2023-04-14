@@ -36,6 +36,7 @@ class AndroidMainTest {
 
     @Test
     fun testAwaitFlag(): Unit = runBlocking(Dispatchers.Main.immediate) {
+        logD { "test begin, flag.value = ${flag.value}" }
         val c1 = launch {
             delay(2000)
             flag.value = true
