@@ -8,7 +8,7 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.lifecycle.findViewTreeLifecycleOwner
-import androidx.lifecycle.withResumed
+import androidx.lifecycle.withStarted
 import com.bfu.loophintsearchview.base.App
 import com.bfu.loophintsearchview.base.dp
 import com.bfu.loophintsearchview.databinding.LayoutSearchViewBinding
@@ -43,10 +43,8 @@ class FlowLoopHintSearchView @JvmOverloads constructor(
     private suspend fun awaitViewActive() {
         currentCoroutineContext().ensureActive()
         val hostLifecycleOwner = findViewTreeLifecycleOwner() ?: return
-//        hostLifecycleOwner.whenResumed { }
         // sheng
-        hostLifecycleOwner.withResumed { }
-
+        hostLifecycleOwner.withStarted { }
     }
 
 
