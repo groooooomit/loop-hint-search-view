@@ -6,16 +6,17 @@ import kotlinx.coroutines.cancelAndJoin
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
-fun <T> Flow<T>.latest(): Flow<T> = flow {
-    var preJob: Job? = null
-    coroutineScope {
-        this@latest.collect {
-            preJob?.cancelAndJoin()
-            preJob = launch(start = CoroutineStart.UNDISPATCHED) {
-                this@flow.emit(it)
+fun <T> Flow<T>.latest(): Flow<T> = object : Flow<T> {
+    override suspend fun collect(collector: FlowCollector<T>) {
+        var preJob: Job? = null
+        coroutineScope {
+            this@latest.collect {
+                preJob?.cancelAndJoin()
+                preJob = launch(start = CoroutineStart.UNDISPATCHED) {
+                    collector.emit(it)
+                }
             }
         }
     }
